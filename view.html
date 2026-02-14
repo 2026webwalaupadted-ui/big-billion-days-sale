@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>BIg Billion Days</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+        body {
+            background-color: #f1f3f6;
+            overflow-x: hidden;
+            padding-bottom: 80px;
+        }
+        .flip-header {
+            background: #2874f0;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1001;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+        }
+        .flip-logo-area {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+        }
+        .flip-logo {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: white;
+            display: flex;
+            align-items: baseline;
+        }
+        .flip-logo span {
+            color: #ffe500;
+            font-size: 20px;
+            margin-left: 2px;
+        }
+        .flip-explore {
+            font-size: 11px;
+            font-style: italic;
+            color: #f0f0f0;
+            margin-top: -2px;
+        }
+        .flip-explore i {
+            color: #ffe500;
+            font-weight: 700;
+        }
+        .header-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        .header-icons i {
+            font-size: 20px;
+            color: white;
+        }
+        .header-spacer {
+            height: 64px;
+            background: #f1f3f6;
+        }
+        .pdp-nav {
+            background: white;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .pdp-nav-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .pdp-nav-left i {
+            font-size: 18px;
+            color: #212121;
+            cursor: pointer;
+        }
+        .pdp-nav-left span {
+            font-size: 16px;
+            font-weight: 500;
+            color: #212121;
+        }
+        .pdp-nav-right {
+            display: flex;
+            gap: 20px;
+        }
+        .pdp-nav-right i {
+            font-size: 18px;
+            color: #212121;
+            cursor: pointer;
+        }
+        .slider-wrapper {
+            background: white;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f0f0f0;
+            width: 100%;
+            position: relative;
+        }
+        .slider {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+            scroll-behavior: smooth;
+            background: white;
+            aspect-ratio: 1 / 1;
+            width: 100%;
+        }
+        .slider::-webkit-scrollbar {
+            display: none;
+        }
+        .slide {
+            flex: 0 0 100%;
+            scroll-snap-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            padding: 16px;
+            position: relative;
+        }
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+        .wishlist-heart {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.1s;
+        }
+        .wishlist-heart i {
+            font-size: 22px;
+            color: #212121;
+            transition: color 0.1s;
+        }
+        .wishlist-heart.active i {
+            color: #ff3f6c;
+            font-weight: 900;
+        }
+        .dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 8px;
+            padding-bottom: 4px;
+        }
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #c2c2c2;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        .dot.active {
+            background: #2874f0;
+            width: 20px;
+            border-radius: 10px;
+        }
+        .product-detail {
+            background: white;
+            padding: 16px;
+            margin-top: 8px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .product-title {
+            font-size: 18px;
+            font-weight: 500;
+            line-height: 1.4;
+            color: #212121;
+            margin-bottom: 12px;
+        }
+        .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background: #388e3c;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 3px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+        .rating-badge i {
+            font-size: 12px;
+            margin-left: 4px;
+        }
+        .price-container {
+            padding: 8px 0 12px;
+            border-bottom: 1px dashed #e0e0e0;
+        }
+        .price-row {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .new-price {
+            font-size: 28px;
+            font-weight: 700;
+            color: #212121;
+        }
+        .old-price {
+            font-size: 18px;
+            color: #878787;
+            text-decoration: line-through;
+        }
+        .discount-percent {
+            font-size: 18px;
+            font-weight: 600;
+            color: #388e3c;
+        }
+        .you-save {
+            font-size: 14px;
+            color: #388e3c;
+            font-weight: 500;
+            margin-top: 6px;
+        }
+        .bank-offer {
+            background: #fff7e6;
+            border: 1px solid #ffe4b3;
+            padding: 12px 16px;
+            border-radius: 4px;
+            margin-top: 16px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #212121;
+        }
+        .bank-offer i {
+            color: #ff9f00;
+            margin-right: 6px;
+        }
+        .bank-offer b {
+            color: #2874f0;
+        }
+        .delivery-info,
+        .highlights-section,
+        .review-section {
+            background: white;
+            margin-top: 8px;
+            padding: 16px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .delivery-title,
+        .highlights-title,
+        .review-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #212121;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .delivery-title i,
+        .highlights-title i,
+        .review-title i {
+            color: #2874f0;
+        }
+        .delivery-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .option-icon {
+            width: 24px;
+            color: #2874f0;
+            font-size: 16px;
+            text-align: center;
+        }
+        .option-text {
+            font-size: 14px;
+            color: #212121;
+        }
+        .highlights-list {
+            list-style: none;
+        }
+        .highlight-item {
+            display: flex;
+            padding: 6px 0;
+            font-size: 14px;
+            color: #212121;
+            align-items: baseline;
+        }
+        .highlight-item:before {
+            content: "•";
+            color: #878787;
+            font-weight: bold;
+            font-size: 16px;
+            margin-right: 12px;
+        }
+        .review-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            align-items: start;
+        }
+        .review-card {
+            background: #fafafa;
+            border: 1px solid #f0f0f0;
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            transition: box-shadow 0.1s;
+        }
+        .review-card .img-container {
+            width: 100%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+        .review-card img {
+            width: 100%;
+            height: auto;
+            min-height: 200px;
+            object-fit: contain;
+            display: block;
+            background: white;
+        }
+        .review-heart {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            cursor: pointer;
+            z-index: 5;
+            transition: all 0.1s;
+        }
+        .review-heart i {
+            font-size: 18px;
+            color: #212121;
+            transition: color 0.1s;
+        }
+        .review-heart.active i {
+            color: #ff3f6c;
+            font-weight: 900;
+        }
+        .review-caption {
+            font-size: 13px;
+            color: #2874f0;
+            font-weight: 500;
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .review-caption i {
+            color: #388e3c;
+            font-size: 14px;
+        }
+        .action-buttons {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+            padding: 12px 16px;
+            display: flex;
+            gap: 12px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.06);
+            z-index: 1002;
+        }
+        .btn {
+            flex: 1;
+            padding: 14px 8px;
+            border: none;
+            border-radius: 2px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.1s;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-cart {
+            background: #ff9f00;
+            color: white;
+        }
+        .btn-buy {
+            background: #fb641b;
+            color: white;
+        }
+        .btn:active {
+            opacity: 0.8;
+        }
+        @media (min-width: 768px) {
+            body {
+                padding-bottom: 0;
+            }
+            .action-buttons {
+                position: static;
+                box-shadow: none;
+                padding: 20px 16px;
+                margin-top: 16px;
+                background: transparent;
+            }
+            .delivery-info,
+            .highlights-section,
+            .review-section {
+                margin: 8px 16px;
+                border-radius: 8px;
+                border: 1px solid #f0f0f0;
+            }
+            .slider-wrapper {
+                margin: 0 16px;
+                border-radius: 8px;
+                border: 1px solid #f0f0f0;
+            }
+            .review-grid {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            }
+        }
+        @media (max-width: 480px) {
+            .review-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            .review-card {
+                padding: 12px;
+            }
+        }
+        .review-section[style*="display: none"] {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="flip-header">
+        <div class="flip-logo-area">
+            <div class="flip-logo">
+                Flipkart<span>.</span>
+            </div>
+            <div class="flip-explore">
+                Explore <i>Plus</i> <i class="fas fa-plus-circle"></i>
+            </div>
+        </div>
+        <div class="header-icons">
+            <i class="fas fa-search"></i>
+            <i class="fas fa-bell"></i>
+            <i class="fas fa-user-circle"></i>
+            <i class="fas fa-shopping-cart"></i>
+        </div>
+    </div>
+    <div class="header-spacer"></div>
+
+    <div class="pdp-nav">
+        <div class="pdp-nav-left">
+            <i class="fas fa-arrow-left" onclick="window.history.back()"></i>
+            <span>Product Details</span>
+        </div>
+        <div class="pdp-nav-right">
+            <i class="fas fa-share-alt"></i>
+            <i class="fas fa-ellipsis-vertical"></i>
+        </div>
+    </div>
+    <div class="slider-wrapper">
+        <div class="slider" id="slider"></div>
+        <div class="wishlist-heart" id="mainWishlistHeart" onclick="toggleMainHeart(this)">
+            <i class="far fa-heart"></i>
+        </div>
+        <div class="dots" id="dots"></div>
+    </div>
+
+    <section class="product-detail">
+        <h1 class="product-title" id="productName">Premium Product</h1>
+        <div class="rating-badge">
+            <span id="rating">4.5</span> <i class="fas fa-star"></i>
+            <span id="ratingCount">(3,567)</span>
+        </div>
+        <div class="price-container">
+            <div class="price-row">
+                <span class="new-price" id="newPrice">₹799</span>
+                <span class="old-price" id="oldPrice">₹3,999</span>
+                <span class="discount-percent" id="discountPercent">80% off</span>
+            </div>
+            <div class="you-save" id="youSave">You save ₹3,200</div>
+        </div>
+        <div class="bank-offer">
+            <i class="fas fa-tag"></i> <b>Bank Offer</b><br>
+            5% Unlimited Cashback on Flipkart Axis Bank Credit Card<br>
+            10% Instant Discount on SBI Credit Card Transactions
+        </div>
+    </section>
+
+    <section class="delivery-info">
+        <div class="delivery-title">
+            <i class="fas fa-truck"></i> Delivery
+        </div>
+        <div class="delivery-options">
+            <div class="option">
+                <span class="option-icon"><i class="fas fa-shipping-fast"></i></span>
+                <span class="option-text">Delivery by Tomorrow, 5 PM</span>
+            </div>
+            <div class="option">
+                <span class="option-icon"><i class="fas fa-indian-rupee-sign"></i></span>
+                <span class="option-text">Free Delivery</span>
+            </div>
+            <div class="option">
+                <span class="option-icon"><i class="fas fa-arrows-rotate"></i></span>
+                <span class="option-text">10 Days Return Policy</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="highlights-section">
+        <div class="highlights-title">
+            <i class="fas fa-list-check"></i> Product Highlights
+        </div>
+        <ul class="highlights-list" id="highlightsList"></ul>
+    </section>
+
+    <section class="review-section" id="reviewSection" style="display: none;">
+        <div class="review-title">
+            <i class="fas fa-star-half-stroke"></i> Customer Reviews
+        </div>
+        <div class="review-grid" id="reviewGrid"></div>
+    </section>
+    <div class="action-buttons">
+        <button class="btn btn-cart" id="addToCartBtn">
+            <i class="fas fa-shopping-cart"></i> ADD TO CART
+        </button>
+        <button class="btn btn-buy" id="buyNowBtn">
+            BUY NOW
+        </button>
+    </div>
+
+    <script>
+        (function() {
+            "use strict";
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+            const productName = decodeURIComponent(urlParams.get('product') || 'Premium Product');
+            const price = urlParams.get('price');
+            const originalPrice = urlParams.get('original');
+            const discountPercent = urlParams.get('discount');
+            const rating = urlParams.get('rating');
+            const ratingCount = urlParams.get('ratingCount');
+
+            let mainImagePath = '';
+
+            window.toggleMainHeart = function(el) {
+                const icon = el.querySelector('i');
+                if (icon.classList.contains('far')) {
+                    icon.classList.remove('far');
+                    icon.classList.add('fas');
+                    el.classList.add('active');
+                } else {
+                    icon.classList.remove('fas');
+                    icon.classList.add('far');
+                    el.classList.remove('active');
+                }
+            };
+
+            window.toggleReviewHeart = function(el) {
+                const icon = el.querySelector('i');
+                if (icon.classList.contains('far')) {
+                    icon.classList.remove('far');
+                    icon.classList.add('fas');
+                    el.classList.add('active');
+                } else {
+                    icon.classList.remove('fas');
+                    icon.classList.add('far');
+                    el.classList.remove('active');
+                }
+            };
+
+            document.getElementById('addToCartBtn').onclick = function() {
+                if (productId) {
+                    localStorage.setItem(
+                        'cart_' + productId,
+                        JSON.stringify({ 
+                            productId, 
+                            productName, 
+                            price,
+                            image: mainImagePath || `assets/${productId}/images/main.webp`
+                        })
+                    );
+                }
+                const params = new URLSearchParams({
+                    id: productId || 'demo',
+                    product: encodeURIComponent(productName),
+                    price: price || '799',
+                    image: mainImagePath || `assets/${productId || 'demo'}/images/main.webp`,
+                    source: 'cart'
+                });
+                window.location.href = 'address.html?' + params.toString();
+            };
+
+            document.getElementById('buyNowBtn').onclick = function() {
+                const params = new URLSearchParams({
+                    id: productId || 'demo',
+                    product: encodeURIComponent(productName),
+                    price: price || '799',
+                    image: mainImagePath || `assets/${productId || 'demo'}/images/main.webp`,
+                    source: 'buynow'
+                });
+                window.location.href = 'address.html?' + params.toString();
+            };
+
+            function loadProductDetails() {
+                if (productName) document.getElementById('productName').textContent = productName;
+                if (rating) document.getElementById('rating').textContent = rating;
+                if (ratingCount) document.getElementById('ratingCount').textContent = `(${parseInt(ratingCount).toLocaleString()})`;
+                if (price) {
+                    document.getElementById('newPrice').textContent = '₹' + parseInt(price).toLocaleString('en-IN');
+                }
+                if (originalPrice) {
+                    document.getElementById('oldPrice').textContent = '₹' + parseInt(originalPrice).toLocaleString('en-IN');
+                }
+                if (discountPercent && price && originalPrice) {
+                    document.getElementById('discountPercent').textContent = discountPercent + '% off';
+                    const save = parseInt(originalPrice) - parseInt(price);
+                    document.getElementById('youSave').textContent = 'You save ₹' + save.toLocaleString('en-IN');
+                } else if (price && originalPrice) {
+                    const orig = parseInt(originalPrice);
+                    const curr = parseInt(price);
+                    if (orig > curr) {
+                        const disc = Math.round((orig - curr) / orig * 100);
+                        document.getElementById('discountPercent').textContent = disc + '% off';
+                        document.getElementById('youSave').textContent = 'You save ₹' + (orig - curr).toLocaleString('en-IN');
+                    }
+                }
+                loadProductHighlights();
+                loadProductImages(); 
+                loadRealReviewsOnly();
+            }
+
+            function loadProductHighlights() {
+                const list = document.getElementById('highlightsList');
+                list.innerHTML = '';
+                const highlights = [
+                    "Premium quality material",
+                    "1 year manufacturer warranty",
+                    "Easy return policy",
+                    "Flipkart Assured",
+                    "Fast delivery"
+                ];
+                highlights.forEach(text => {
+                    const li = document.createElement('li');
+                    li.className = 'highlight-item';
+                    li.textContent = text;
+                    list.appendChild(li);
+                });
+            }
+
+            function loadProductImages() {
+                const slider = document.getElementById('slider');
+                const dotsBox = document.getElementById('dots');
+                slider.innerHTML = '';
+                dotsBox.innerHTML = '';
+
+                if (!productId) {
+                    const slide = document.createElement('div');
+                    slide.className = 'slide';
+                    slide.innerHTML = '<img src="assets/demo/images/main.webp" alt="demo" onerror="this.src=\'https://via.placeholder.com/600x600?text=Flipkart+Assured\'">';
+                    slider.appendChild(slide);
+                    mainImagePath = 'assets/demo/images/main.webp';
+                    return;
+                }
+
+                const basePath = `assets/${productId}/images/`;
+                const foundImages = [];
+                let checkedCount = 0;
+                let totalToCheck = 20;
+
+         
+                const mainImg = new Image();
+                mainImg.src = basePath + 'main.webp';
+                mainImg.onload = () => {
+                    foundImages.push('main.webp');
+                    mainImagePath = basePath + 'main.webp';
+                    checkNextImages(2); 
+                };
+                mainImg.onerror = () => {
+                    const main1Img = new Image();
+                    main1Img.src = basePath + 'main1.webp';
+                    main1Img.onload = () => {
+                        foundImages.push('main1.webp');
+                        mainImagePath = basePath + 'main1.webp';
+                        checkNextImages(2); 
+                    };
+                    main1Img.onerror = () => {
+                        checkNextImages(2);
+                    };
+                };
+
+                function checkNextImages(startNum) {
+                    for (let i = startNum; i <= totalToCheck; i++) {
+                        const img = new Image();
+                        const fileName = `main${i}.webp`;
+                        img.src = basePath + fileName;
+                        
+                        img.onload = (function(filename) {
+                            return function() {
+                                foundImages.push(filename);
+                                checkedCount++;
+                                if (checkedCount === totalToCheck - 1) {
+                                    renderSlides();
+                                }
+                            };
+                        })(fileName);
+                        
+                        img.onerror = (function() {
+                            checkedCount++;
+                            if (checkedCount === totalToCheck - 1) {
+                                renderSlides();
+                            }
+                        });
+                    }
+                }
+
+                function renderSlides() {
+                    const sortedImages = foundImages.sort((a, b) => {
+                        const getNum = (name) => {
+                            const match = name.match(/main(\d*)\./);
+                            if (!match) return 0;
+                            return match[1] ? parseInt(match[1]) : 0;
+                        };
+                        return getNum(a) - getNum(b);
+                    });
+
+                    if (sortedImages.length === 0) {
+                        const slide = document.createElement('div');
+                        slide.className = 'slide';
+                        slide.innerHTML = '<img src="assets/demo/images/main.webp" alt="fallback" onerror="this.src=\'https://via.placeholder.com/600x600?text=Flipkart+Assured\'">';
+                        slider.appendChild(slide);
+                        mainImagePath = 'assets/demo/images/main.webp';
+                        return;
+                    }
+
+                    sortedImages.forEach((imgName, index) => {
+                        const slide = document.createElement('div');
+                        slide.className = 'slide';
+                        slide.innerHTML = `<img src="${basePath}${imgName}" alt="Product ${index + 1}" loading="lazy">`;
+                        slider.appendChild(slide);
+
+                        if (sortedImages.length > 1) {
+                            const dot = document.createElement('span');
+                            dot.className = 'dot' + (index === 0 ? ' active' : '');
+                            dot.onclick = () => {
+                                slider.scrollTo({ left: index * slider.offsetWidth, behavior: 'smooth' });
+                                updateDots(index);
+                            };
+                            dotsBox.appendChild(dot);
+                        }
+                    });
+
+                    if (sortedImages.length > 1) {
+                        slider.addEventListener('scroll', () => {
+                            const index = Math.round(slider.scrollLeft / slider.offsetWidth);
+                            updateDots(index);
+                        });
+                        startAutoSlide();
+                    }
+                }
+            }
+
+            function updateDots(activeIndex) {
+                document.querySelectorAll('.dot').forEach((dot, i) => {
+                    dot.classList.toggle('active', i === activeIndex);
+                });
+            }
+
+            let slideInterval;
+            function startAutoSlide() {
+                clearInterval(slideInterval);
+                const sliderEl = document.getElementById('slider');
+                const total = sliderEl.children.length;
+                if (total <= 1) return;
+                slideInterval = setInterval(() => {
+                    const slideWidth = sliderEl.offsetWidth;
+                    const next = (Math.round(sliderEl.scrollLeft / slideWidth) + 1) % total;
+                    sliderEl.scrollTo({ left: next * slideWidth, behavior: 'smooth' });
+                    updateDots(next);
+                }, 3000);
+            }
+
+            function loadRealReviewsOnly() {
+                const reviewGrid = document.getElementById('reviewGrid');
+                const reviewSection = document.getElementById('reviewSection');
+                
+                reviewSection.style.display = 'none';
+                reviewGrid.innerHTML = '';
+
+                if (!productId) {
+                    return;
+                }
+
+                const reviewBasePath = `assets/${productId}/images/`;
+                const extensions = ['webp', 'jpg', 'jpeg', 'png'];
+                const reviewCandidates = [];
+                
+                for (let i = 1; i <= 10; i++) {
+                    extensions.forEach(ext => {
+                        reviewCandidates.push(`review${i}.${ext}`);
+                    });
+                }
+
+                let loadedCount = 0;
+                const validImages = [];
+
+                if (reviewCandidates.length === 0) {
+                    return;
+                }
+
+                reviewCandidates.forEach(filename => {
+                    const img = new Image();
+                    img.src = reviewBasePath + filename;
+                    
+                    img.onload = () => {
+                        validImages.push(filename);
+                        loadedCount++;
+                        
+                        if (loadedCount === reviewCandidates.length) {
+                            if (validImages.length > 0) {
+                                renderRealReviews(validImages);
+                            }
+                        }
+                    };
+                    
+                    img.onerror = () => {
+                        loadedCount++;
+                        if (loadedCount === reviewCandidates.length && validImages.length === 0) {
+                            console.log('No review images found for product:', productId);
+                        }
+                    };
+                });
+
+                setTimeout(() => {
+                    if (validImages.length > 0) {
+                        renderRealReviews(validImages);
+                    }
+                }, 2000);
+            }
+
+            function renderRealReviews(imageFilenames) {
+                const reviewGrid = document.getElementById('reviewGrid');
+                const reviewSection = document.getElementById('reviewSection');
+                const basePath = `assets/${productId}/images/`;
+                
+                reviewGrid.innerHTML = '';
+
+                if (!imageFilenames || imageFilenames.length === 0) {
+                    reviewSection.style.display = 'none';
+                    return;
+                }
+
+                const uniqueImages = [...new Set(imageFilenames)].sort();
+                
+                uniqueImages.forEach((filename) => {
+                    const card = document.createElement('div');
+                    card.className = 'review-card';
+                    
+                    const imgContainer = document.createElement('div');
+                    imgContainer.className = 'img-container';
+                    
+                    const img = document.createElement('img');
+                    img.src = basePath + filename;
+                    img.alt = 'Customer review';
+                    img.loading = 'lazy';
+                    
+                    const heartDiv = document.createElement('div');
+                    heartDiv.className = 'review-heart';
+                    heartDiv.setAttribute('onclick', 'toggleReviewHeart(this)');
+                    heartDiv.innerHTML = '<i class="far fa-heart"></i>';
+                    
+                    imgContainer.appendChild(img);
+                    imgContainer.appendChild(heartDiv);
+                    
+                    const caption = document.createElement('div');
+                    caption.className = 'review-caption';
+                    caption.innerHTML = '<i class="fas fa-check-circle"></i> Verified Purchase';
+                    
+                    card.appendChild(imgContainer);
+                    card.appendChild(caption);
+                    reviewGrid.appendChild(card);
+                });
+
+                if (reviewGrid.children.length > 0) {
+                    reviewSection.style.display = 'block';
+                } else {
+                    reviewSection.style.display = 'none';
+                }
+            }
+
+            document.addEventListener('DOMContentLoaded', () => {
+                loadProductDetails();
+                const sliderEl = document.getElementById('slider');
+                sliderEl.addEventListener('mouseenter', () => clearInterval(slideInterval));
+                sliderEl.addEventListener('mouseleave', startAutoSlide);
+            });
+
+        })();
+    </script>
+</body>
+</html>

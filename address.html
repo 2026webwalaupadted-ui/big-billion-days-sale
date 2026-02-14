@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Flipkart - Add Delivery Address</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+*{
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+body{
+    margin:0;
+    background:#f1f3f6;
+}
+.wrapper{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    padding:20px 10px;
+}
+.container{
+    width:100%;
+    max-width:420px;
+    background:#fff;
+    border-radius:8px;
+    padding:16px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.1);
+}
+h2{
+    font-size:18px;
+    margin-bottom:16px;
+}
+input{
+    width:100%;
+    padding:12px;
+    margin-bottom:12px;
+    border:1px solid #dcdcdc;
+    border-radius:6px;
+    font-size:14px;
+}
+input:focus{
+    outline:none;
+    border-color:#2874f0;
+}
+.row{
+    display:flex;
+    gap:10px;
+}
+.row input{
+    width:100%;
+}
+.address-type-title{
+    font-size:14px;
+    margin:10px 0 6px;
+}
+.address-type{
+    display:flex;
+    gap:10px;
+    margin-bottom:16px;
+}
+.address-type button{
+    flex:1;
+    padding:10px;
+    border-radius:6px;
+    border:1px solid #ccc;
+    background:#fff;
+    cursor:pointer;
+    font-size:14px;
+}
+.address-type button.active{
+    border-color:#2874f0;
+    color:#2874f0;
+    font-weight:bold;
+}
+.save-btn{
+    width:100%;
+    padding:14px;
+    background:#fb641b;
+    color:white;
+    border:none;
+    border-radius:6px;
+    font-size:16px;
+    cursor:pointer;
+}
+@media(max-width:480px){
+    .row{
+        flex-direction:column;
+        gap:0;
+    }
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+<div class="container">
+<h2>Add Delivery Address</h2>
+
+<!-- Hidden fields to store product data only for navigation -->
+<input type="hidden" id="productName">
+<input type="hidden" id="productPrice">
+<input type="hidden" id="productImage">
+
+<input type="text" id="fullName" placeholder="Full Name *" required>
+<input type="tel" id="phoneNumber" placeholder="Phone Number *" required>
+<input type="text" id="pincode" placeholder="Pincode *" required>
+
+<div class="row">
+    <input type="text" id="state" placeholder="State *" required>
+    <input type="text" id="city" placeholder="City *" required>
+</div>
+
+<input type="text" id="houseNo" placeholder="House No., Building Name *" required>
+<input type="text" id="roadName" placeholder="Road Name, Area, Colony *" required>
+
+<div class="address-type-title">Type of Address</div>
+<div class="address-type">
+    <button type="button" class="active" onclick="selectType(this)">Home</button>
+    <button type="button" onclick="selectType(this)">Work</button>
+</div>
+
+<button class="save-btn" id="saveAddressBtn">Save Address</button>
+</div>
+</div>
+
+<script>
+(function() {
+    "use strict";
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    function decodeParam(value) {
+        if (!value) return '';
+        try {
+            let decoded = decodeURIComponent(value);
+            if (decoded.includes('%')) {
+                decoded = decodeURIComponent(decoded);
+            }
+            return decoded;
+        } catch (e) {
+            return value;
+        }
+    }
+    
+    // Get product data from URL (only stored for navigation, not displayed)
+    const productName = decodeParam(urlParams.get('product')) || 
+                       decodeParam(urlParams.get('name')) || 
+                       'Premium Wireless Headphones';
+    const productPrice = urlParams.get('price') || '299';
+    let productImage = urlParams.get('image') || '';
+    
+    if (productImage && !productImage.startsWith('http')) {
+        productImage = productImage.replace(/\\/g, '/');
+    }
+    
+    // Store in hidden fields
+    document.getElementById('productName').value = productName;
+    document.getElementById('productPrice').value = productPrice;
+    document.getElementById('productImage').value = productImage;
+    
+    window.selectType = function(btn) {
+        document.querySelectorAll(".address-type button").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+    };
+    
+    document.getElementById('saveAddressBtn').onclick = function() {
+        const fullName = document.getElementById('fullName').value.trim();
+        const phone = document.getElementById('phoneNumber').value.trim();
+        const pincode = document.getElementById('pincode').value.trim();
+        const state = document.getElementById('state').value.trim();
+        const city = document.getElementById('city').value.trim();
+        const houseNo = document.getElementById('houseNo').value.trim();
+        const roadName = document.getElementById('roadName').value.trim();
+
+        const activeType = document.querySelector('.address-type button.active');
+        const addressType = activeType ? activeType.textContent : 'Home';
+
+        if(!fullName || !phone || !pincode || !state || !city || !houseNo || !roadName){
+            alert("All fields are mandatory. Please fill the complete address.");
+            return;
+        }
+        if(phone.length !== 10 || !/^\d+$/.test(phone)){
+            alert("Enter a valid 10-digit mobile number.");
+            return;
+        }
+        if(pincode.length !== 6 || !/^\d+$/.test(pincode)){
+            alert("Pincode must be 6 digits.");
+            return;
+        }
+
+        // Properly encode all parameters for navigation
+        const redirectParams = new URLSearchParams({
+            product: productName,
+            price: productPrice,
+            image: productImage,
+            name: fullName,
+            phone: phone,
+            pincode: pincode,
+            state: state,
+            city: city,
+            address_line: `${houseNo}, ${roadName}`,
+            addressType: addressType
+        });
+
+        // Navigate to level.html with all details
+        window.location.href = 'level.html?' + redirectParams.toString();
+    };
+})();
+</script>
+</body>
+</html>

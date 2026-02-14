@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Flipkart - Payment Pending</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background: #f1f3f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 12px;
+        }
+
+        .flipkart-app {
+            max-width: 400px;
+            width: 100%;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+
+        .fk-header {
+            background: #2874f0;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+        }
+
+        .fk-logo-area {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .fk-logo {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+
+        .fk-logo-text {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        .fk-plus {
+            background: #ffe500;
+            color: #272727;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 2px;
+            margin-left: 8px;
+        }
+
+        .fk-explore {
+            font-size: 11px;
+            opacity: 0.9;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .fk-content {
+            padding: 20px 16px;
+        }
+
+        .fk-status-banner {
+            background: #fff4e5;
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #ffe0b0;
+        }
+
+        .fk-status-icon {
+            background: #ff9f00;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fk-status-icon svg {
+            width: 28px;
+            height: 28px;
+            fill: white;
+        }
+
+        .fk-status-text h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #212121;
+            margin-bottom: 4px;
+        }
+
+        .fk-status-text p {
+            font-size: 14px;
+            color: #878787;
+        }
+        .fk-product-detail-card {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #f0f0f0;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .fk-product-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            border: 1px solid #eaeaea;
+            object-fit: contain;
+            background: #fafafa;
+            padding: 8px;
+        }
+
+        .fk-product-details {
+            flex: 1;
+        }
+
+        .fk-product-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #212121;
+            margin-bottom: 8px;
+            line-height: 1.4;
+            
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-height: 44px;
+        }
+
+        .fk-product-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .fk-product-price {
+            font-size: 22px;
+            font-weight: 700;
+            color: #212121;
+        }
+
+        .fk-product-seller {
+            font-size: 13px;
+            color: #878787;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .fk-rating {
+            background: #388e3c;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            width: fit-content;
+        }
+
+        .fk-amount-card {
+            background: #fafafa;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #f0f0f0;
+        }
+
+        .fk-amount-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .fk-amount-label {
+            font-size: 14px;
+            color: #878787;
+        }
+
+        .fk-amount-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #212121;
+        }
+
+        .fk-pending-badge {
+            background: #ff9f00;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .fk-divider {
+            height: 1px;
+            background: #eaeaea;
+            margin: 16px 0;
+        }
+
+        .fk-order-detail {
+            display: flex;
+            gap: 12px;
+            padding: 8px 0;
+        }
+
+        .fk-order-info {
+            flex: 1;
+        }
+        
+        .fk-order-info h4 {
+            font-size: 15px;
+            font-weight: 600;
+            color: #212121;
+            margin-bottom: 4px;
+            
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-height: 42px;
+        }
+        
+        .fk-order-info p {
+            font-size: 13px;
+            color: #878787;
+        }
+
+        .fk-retry-btn {
+            background: #fb641b;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(251,100,27,0.3);
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .fk-retry-btn:hover {
+            background: #e85b1a;
+        }
+
+        .fk-retry-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        .fk-refund-card {
+            background: #f1f3f6;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+            border-left: 4px solid #2874f0;
+        }
+
+        .fk-refund-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2874f0;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .fk-timeline-box {
+            background: white;
+            border-radius: 6px;
+            padding: 12px;
+            margin: 12px 0;
+            border: 1px solid #e0e0e0;
+        }
+
+        .fk-footer-links {
+            display: flex;
+            justify-content: space-between;
+            padding: 16px 0 8px;
+            font-size: 12px;
+            color: #878787;
+            border-top: 1px solid #eaeaea;
+        }
+    </style>
+</head>
+<body>
+    <div class="flipkart-app">
+        <div class="fk-header">
+            <div class="fk-logo-area">
+                <div class="fk-logo">
+                    <span class="fk-logo-text">Flipkart</span>
+                    <div class="fk-explore">
+                        <span>Explore</span>
+                        <span>Plus</span>
+                        <svg viewBox="0 0 24 24" width="12" height="12">
+                            <path d="M7 10l5 5 5-5z" fill="#ffe500"/>
+                        </svg>
+                    </div>
+                </div>
+                <span class="fk-plus">Plus</span>
+            </div>
+            <div class="fk-search-icon">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="white">
+                    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                </svg>
+            </div>
+        </div>
+
+        <div class="fk-content">
+            <div class="fk-status-banner">
+                <div class="fk-status-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" fill="white"/>
+                    </svg>
+                </div>
+                <div class="fk-status-text">
+                    <h3 id="statusHeading">Payment Pending</h3>
+                    <p id="statusText">Your order is confirmed • Verification in progress</p>
+                </div>
+            </div>
+
+            <div class="fk-product-detail-card" id="productDetailCard">
+                <img src="" alt="Product" class="fk-product-image" id="productImage">
+                <div class="fk-product-details">
+                    <div class="fk-product-title" id="productName">PHILIPS MG3724/30, Multigroomer, Self sharpening Blades Trimmer 6...</div>
+                    <div class="fk-product-meta">
+                        <div class="fk-rating"><i class="fas fa-star"></i> 4.5 <span style="opacity:0.8;">(2,345)</span></div>
+                        <div class="fk-product-price" id="productPrice">₹1,499</div>
+                        <div class="fk-product-seller"><i class="fas fa-check-circle" style="color:#388e3c;"></i> Flipkart Assured</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fk-amount-card">
+                <div class="fk-amount-row">
+                    <span class="fk-amount-label">Total Amount</span>
+                    <span class="fk-amount-value" id="totalAmount">₹1,499</span>
+                </div>
+                <div class="fk-amount-row">
+                    <span class="fk-amount-label">Payment Status</span>
+                    <span class="fk-pending-badge">PENDING</span>
+                </div>
+                
+                <div class="fk-divider"></div>
+                
+                <div class="fk-order-detail">
+                    <div class="fk-product-icon">
+                        <i class="fas fa-box" style="font-size: 24px; color: #2874f0;"></i>
+                    </div>
+                    <div class="fk-order-info">
+                        <h4 id="orderProductName">PHILIPS MG3724/30, Multigroomer, Self sharpening Blades Trimmer 6...</h4>
+                        <p id="orderId">Order #FK-1234-5678 • Qty: 1</p>
+                    </div>
+                </div>
+            </div>
+
+            <button class="fk-retry-btn" id="retryPaymentBtn">
+                <svg viewBox="0 0 24 24">
+                    <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" fill="white"/>
+                </svg>
+                RETRY PAYMENT
+            </button>
+
+            <div class="fk-refund-card">
+                <div class="fk-refund-title">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="#2874f0">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                    </svg>
+                    Refund Information
+                </div>
+                
+                <div class="fk-timeline-box">
+                    <div style="font-size:13px; color:#666;">Refund Timeline</div>
+                    <div style="font-size:20px; font-weight:700;">72 Working Hours</div>
+                    <div style="font-size:12px; color:#388e3c;">(3 business days)</div>
+                </div>
+                
+                <p style="margin-top:12px; font-size:13px; color:#388e3c;">
+                    ✓ No action required if payment already deducted
+                </p>
+            </div>
+
+            <div class="fk-footer-links">
+                <span><i class="fas fa-question-circle"></i> Help</span>
+                <span><i class="fas fa-shield-alt"></i> Protect</span>
+                <span><i class="fas fa-truck"></i> Track</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            "use strict";
+
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            function decodeParam(value) {
+                if (!value) return '';
+                try {
+                    return decodeURIComponent(value);
+                } catch (e) {
+                    return value;
+                }
+            }
+            
+            const productName = decodeParam(urlParams.get('product')) || 'PHILIPS MG3724/30, Multigroomer, Self sharpening Blades Trimmer 6-in-1 with 10 Attachments';
+            const productPrice = urlParams.get('price') || '1499';
+            let productImage = urlParams.get('image') || 'https://m.media-amazon.com/images/I/51utC7C8PUL._SX522_.jpg';
+            const orderId = urlParams.get('orderId') || 'FK' + Date.now().toString().slice(-8);
+
+            const priceNum = parseInt(productPrice) || 1499;
+            const formattedPrice = '₹' + priceNum.toLocaleString('en-IN');
+
+            function updateProductDetails() {
+                const productImg = document.getElementById('productImage');
+                if (productImg) {
+                    productImg.src = productImage;
+                    productImg.onerror = function() {
+                        this.src = 'https://m.media-amazon.com/images/I/51utC7C8PUL._SX522_.jpg';
+                    };
+                }
+
+                const nameElements = ['productName', 'orderProductName'];
+                nameElements.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.textContent = productName;
+                });
+
+                const priceElements = ['productPrice', 'totalAmount'];
+                priceElements.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.textContent = formattedPrice;
+                });
+
+                const orderIdEl = document.getElementById('orderId');
+                if (orderIdEl) {
+                    orderIdEl.textContent = `Order #${orderId} • Qty: 1`;
+                }
+
+                const statusHeading = document.getElementById('statusHeading');
+                if (statusHeading) {
+                    statusHeading.textContent = `Payment Pending - ${formattedPrice}`;
+                }
+            }
+
+            document.getElementById('retryPaymentBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const params = new URLSearchParams({
+                    product: productName,
+                    price: priceNum,
+                    image: productImage,
+                    orderId: orderId
+                }).toString();
+                
+                window.location.href = 'processing.html?' + params;
+            });
+
+            document.addEventListener('DOMContentLoaded', updateProductDetails);
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>BIg Billion Days</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f1f3f6;
+            overflow-x: hidden;
+        }
+
+        .flip-header {
+            background: #2874f0;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+        }
+
+        .flip-logo-area {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+        }
+
+        .flip-logo {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: white;
+            display: flex;
+            align-items: baseline;
+        }
+
+        .flip-logo span {
+            color: #ffe500;
+            font-size: 20px;
+            margin-left: 2px;
+        }
+
+        .flip-explore {
+            font-size: 11px;
+            font-style: italic;
+            color: #f0f0f0;
+            margin-top: -2px;
+        }
+
+        .flip-explore i {
+            color: #ffe500;
+            font-weight: 700;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .header-icons i {
+            font-size: 20px;
+            color: white;
+        }
+
+        /* ----- SEARCH (exact) ----- */
+        .search-section {
+            background: white;
+            padding: 8px 16px;
+            border-bottom: 1px solid #eaeaea;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .search-container {
+            background: #f2f2f2;
+            border-radius: 8px;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            height: 44px;
+            border: 1px solid transparent;
+        }
+
+        .search-container i {
+            color: #717478;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        .search-container input {
+            background: transparent;
+            border: none;
+            outline: none;
+            width: 100%;
+            font-size: 16px;
+            font-weight: 400;
+            color: #212121;
+        }
+
+        .search-container input::placeholder {
+            color: #8e8e8e;
+            font-size: 15px;
+        }
+
+        .mic-icon {
+            background: #f2f2f2;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #212121;
+            font-size: 18px;
+        }
+
+        .delivery-tag {
+            background: white;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+            color: #212121;
+            font-weight: 400;
+        }
+
+        .delivery-tag i {
+            color: #2874f0;
+            font-size: 16px;
+        }
+
+        .delivery-tag .arrow {
+            margin-left: auto;
+            color: #8e8e8e;
+        }
+
+        .category-strip {
+            background: white;
+            padding: 12px 8px;
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            white-space: nowrap;
+            scrollbar-width: none;
+            border-bottom: 1px solid #f1f3f6;
+            cursor: pointer;
+        }
+        .category-strip::-webkit-scrollbar { display: none; }
+
+        .category-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 64px;
+        }
+
+        .category-icon {
+            width: 48px;
+            height: 48px;
+            background: #f5f5f6;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #212121;
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+
+        .category-item span {
+            font-size: 12px;
+            font-weight: 500;
+            color: #212121;
+        }
+
+        .filter-pills {
+            background: white;
+            padding: 12px 16px;
+            overflow-x: auto;
+            white-space: nowrap;
+            display: flex;
+            gap: 10px;
+            border-bottom: 1px solid #f1f3f6;
+            scrollbar-width: none;
+        }
+        .filter-pills::-webkit-scrollbar { display: none; }
+
+        .pill {
+            display: inline-block;
+            padding: 8px 18px;
+            background: #f2f2f2;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #212121;
+            border: 1px solid transparent;
+            cursor: pointer;
+        }
+
+        .pill.active {
+            background: #2874f0;
+            color: white;
+            border-color: #2874f0;
+        }
+
+        .promo-wrapper {
+            background: white;
+            padding: 0 0 8px 0;
+            margin-bottom: 8px;
+        }
+
+        .promo-slider {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            aspect-ratio: 3/1.2;
+            background: #fff;
+        }
+        .promo-slider::-webkit-scrollbar { display: none; }
+
+        .promo-card {
+            flex: 0 0 100%;
+            scroll-snap-align: center;
+        }
+
+        .promo-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .dots-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            margin-top: 6px;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            background: #c7c7c7;
+            border-radius: 10px;
+            transition: 0.2s;
+        }
+
+        .dot.active {
+            width: 16px;
+            background: #2874f0;
+            border-radius: 10px;
+        }
+
+        .countdown-section {
+            background: white;
+            margin: 0 0 8px 0;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #f1f3f6;
+        }
+
+        .countdown-title {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+            font-size: 18px;
+            color: #212121;
+        }
+
+        .countdown-timer {
+            background: #f2f2f2;
+            color: #212121;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            letter-spacing: 2px;
+        }
+
+        /* ========== 🎯 PRODUCT GRID – WITH HEART ICON (FLIPKART STYLE) ========== */
+        .product-section {
+            background: #f1f3f6;
+            padding: 8px 8px 0 8px;
+            margin: 0;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 12px 16px;
+            border-radius: 0;
+            margin-bottom: 2px;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .section-header h2 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #212121;
+        }
+
+        .section-header a {
+            color: #2874f0;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            background: transparent;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            transition: 0.1s ease;
+            border: 1px solid rgba(0,0,0,0.00);
+            height: 100%;
+            position: relative; /* for heart positioning */
+        }
+
+        .product-card:active {
+            border: 1px solid #2874f0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .product-img {
+            padding: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: white;
+            height: 160px;
+            position: relative;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .product-img img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        /* --- FLIPKART STYLE DISCOUNT BADGE --- */
+        .discount-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: #ff6161;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 3px 7px;
+            border-radius: 3px;
+            z-index: 2;
+            letter-spacing: 0.3px;
+        }
+
+        /* --- ❤️ HEART ICON – EXACT FLIPKART WISHLIST (position top-right) --- */
+        .wishlist-heart {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 36px;
+            height: 36px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.1s;
+            border: none;
+        }
+
+        .wishlist-heart i {
+            font-size: 20px;
+            color: #212121;
+            transition: color 0.1s, font-weight 0.1s;
+        }
+
+        .wishlist-heart.active i {
+            color: #ff3f6c;
+            font-weight: 900;
+        }
+
+        .product-info {
+            padding: 12px 10px 14px;
+            display: flex;
+            flex-direction: column;
+            background: white;
+            position: relative;
+        }
+
+        .product-name {
+            font-size: 14px;
+            font-weight: 400;
+            color: #212121;
+            line-height: 1.4;
+            margin-bottom: 6px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            height: 38px;
+            word-break: break-word;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            margin: 5px 0 6px;
+            font-size: 12px;
+        }
+
+        .rating-stars {
+            color: #ff9f00;
+            background: #388e3c;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 600;
+            font-size: 12px;
+            margin-right: 8px;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .rating-stars i {
+            font-size: 10px;
+            color: white;
+        }
+
+        .rating-count {
+            color: #878787;
+            font-size: 12px;
+            margin-left: 4px;
+        }
+
+        .price-container {
+            display: flex;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .current-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: #212121;
+        }
+
+        .original-price {
+            font-size: 14px;
+            color: #878787;
+            text-decoration: line-through;
+        }
+
+        .discount-percent {
+            font-size: 13px;
+            font-weight: 600;
+            color: #388e3c;
+        }
+
+        .assured {
+            display: flex;
+            align-items: center;
+            margin-top: 6px;
+            gap: 4px;
+        }
+
+        .assured img {
+            width: 60px;
+            height: auto;
+        }
+
+        .bottom-nav {
+            height: 60px;
+            background: white;
+            margin-top: 12px;
+            border-top: 1px solid #eaeaea;
+        }
+
+        .fa-chevron-down {
+            font-size: 12px;
+            margin-left: 4px;
+        }
+
+        @media (min-width: 600px) {
+            .product-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (min-width: 960px) {
+            .product-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="flip-header">
+    <div class="flip-logo-area">
+        <div class="flip-logo">
+            Flipkart<span>.</span>
+        </div>
+        <div class="flip-explore">
+            Explore <i>Plus</i> <i class="fas fa-plus-circle" style="font-size: 10px;"></i>
+        </div>
+    </div>
+    <div class="header-icons">
+        <i class="fas fa-bell"></i>
+        <i class="fas fa-user-circle"></i>
+        <i class="fas fa-shopping-cart"></i>
+    </div>
+</div>
+
+<div class="search-section">
+    <div class="search-container">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Search for Products, Brands and More" id="flipkartSearch">
+    </div>
+    <div class="mic-icon">
+        <i class="fas fa-microphone"></i>
+    </div>
+</div>
+
+<div class="delivery-tag">
+    <i class="fas fa-location-dot"></i>
+    <span><b>Select delivery location</b> </span>
+    <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+</div>
+<div class="category-strip">
+    <div class="category-item" data-category="Mobiles">
+        <div class="category-icon"><i class="fas fa-mobile-alt"></i></div>
+        <span>Mobiles</span>
+    </div>
+    <div class="category-item" data-category="Fashion">
+        <div class="category-icon"><i class="fas fa-tshirt"></i></div>
+        <span>Fashion</span>
+    </div>
+    <div class="category-item" data-category="Electronics">
+        <div class="category-icon"><i class="fas fa-laptop"></i></div>
+        <span>Electronics</span>
+    </div>
+    <div class="category-item" data-category="Home Appliances">
+        <div class="category-icon"><i class="fas fa-tv"></i></div>
+        <span>TV & Appl</span>
+    </div>
+    <div class="category-item" data-category="Furniture">
+        <div class="category-icon"><i class="fas fa-couch"></i></div>
+        <span>Furniture</span>
+    </div>
+    <div class="category-item" data-category="Beauty">
+        <div class="category-icon"><i class="fas fa-heart"></i></div>
+        <span>Beauty</span>
+    </div>
+    <div class="category-item" data-category="Sports">
+        <div class="category-icon"><i class="fas fa-futbol"></i></div>
+        <span>Sports</span>
+    </div>
+    <div class="category-item" data-category="Grocery">
+        <div class="category-icon"><i class="fas fa-car"></i></div>
+        <span>Grocery</span>
+    </div>
+</div>
+
+<div class="filter-pills">
+    <button class="pill active" id="filterAll">All Products</button>
+    <button class="pill" id="filterElectronics">Electronics</button>
+    <button class="pill" id="filterHome">Home Appliances</button>
+    <button class="pill" id="filterFashion">Fashion</button>
+    <button class="pill" id="filterBeauty">Beauty</button>
+    <button class="pill" id="filterSports">Sports</button>
+</div>
+
+<div class="promo-wrapper">
+    <div class="promo-slider" id="slider">
+        <div class="promo-card"><img src="assets/images/banner1.webp" alt="banner1" onerror="this.src='https://via.placeholder.com/800x300?text=Deal+1'"></div>
+        <div class="promo-card"><img src="assets/images/banner2.webp" alt="banner2" onerror="this.src='https://via.placeholder.com/800x300?text=Deal+2'"></div>
+        <div class="promo-card"><img src="assets/images/banner3.webp" alt="banner3" onerror="this.src='https://via.placeholder.com/800x300?text=Deal+3'"></div>
+        <div class="promo-card"><img src="assets/images/banner4.webp" alt="banner4" onerror="this.src='https://via.placeholder.com/800x300?text=Deal+4'"></div>
+    </div>
+    <div class="dots-container" id="dotsContainer">
+        <span class="dot active"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+    </div>
+</div>
+
+<div class="countdown-section">
+    <div class="countdown-title">
+        <i class="fas fa-bolt" style="color: #ff9f00;"></i> Limited time deal
+    </div>
+    <div class="countdown-timer" id="countdownTimer">
+        <span id="hours">15</span><span class="timer-separator">:</span>
+        <span id="minutes">00</span><span class="timer-separator">:</span>
+        <span id="seconds">00</span>
+    </div>
+</div>
+
+<div class="product-section">
+    <div class="section-header">
+        <h2>Today's hottest deals</h2>
+        <a href="#">VIEW ALL <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="product-grid" id="productGrid"></div>
+</div>
+
+<div class="bottom-nav"></div>
+
+<script>
+    (function() {
+        "use strict";
+
+        let totalSeconds = 15 * 60;
+        function updateCountdown() {
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            if (totalSeconds > 0) totalSeconds--; 
+            else clearInterval(countdownInterval);
+        }
+        updateCountdown();
+        const countdownInterval = setInterval(updateCountdown, 1000);
+
+        const slider = document.getElementById("slider");
+        const dots = document.querySelectorAll(".dot");
+        const slides = document.querySelectorAll(".promo-card");
+        let index = 0;
+        let slideInterval;
+
+        function updateSlider() {
+            const slideWidth = slider.clientWidth;
+            slider.scrollTo({ left: index * slideWidth, behavior: "smooth" });
+            dots.forEach(d => d.classList.remove("active"));
+            if (dots[index]) dots[index].classList.add("active");
+        }
+
+        slideInterval = setInterval(() => { 
+            index = (index + 1) % slides.length; 
+            updateSlider(); 
+        }, 3000);
+
+        slider.addEventListener("scroll", () => {
+            const slideWidth = slider.clientWidth;
+            index = Math.round(slider.scrollLeft / slideWidth);
+            dots.forEach(d => d.classList.remove("active"));
+            if (dots[index]) dots[index].classList.add("active");
+        });
+
+        slider.addEventListener("mouseenter", () => clearInterval(slideInterval));
+        slider.addEventListener("mouseleave", () => {
+            slideInterval = setInterval(() => { 
+                index = (index + 1) % slides.length; 
+                updateSlider(); 
+            }, 3000);
+        });
+
+        const products = [
+            { id: 1, name: "RR 70 L Desert Air Cooler White, Blissair 70", price: 1549, image: "assets/images/cooler.webp", category: "Home Appliances" },
+            { id: 2, name: "PHILIPS MG3724/30, Multigroomer, Self sharpening Blades Trimmer 6...", price: 314, image: "assets/images/trimmer.webp", category: "Electronics" },
+            { id: 3, name: "Rechargeable Blender 200 W Juicer (Rechargeable Portable Blender ...", price: 399, image: "assets/images/juse.webp", category: "Home Appliances" },
+            { id: 33, name: "2025 Model 1.5 Ton 3 Star Split Inverter Silver Plus Series with HD Compressor, AI, Dual Gold Fin, Nano Tek Coating & 8-in-1 Flexi Mode AC (CI173SL22RGM1, White)", price: 6225, image: "assets/images/ac.webp", category: "Electronics"},
+            { id: 4, name: "Limited Edition Air Cooler for home, Portable Cooler, Mini AC, Ta...", price: 423, image: "assets/images/mini.webp", category: "Home Appliances" },
+            { id: 34, name: "Nothing Phone (3a) (Black, 256 GB) 8 GB RAM", price: 5256, image: "assets/images/nothing.webp", category: "mobiles"},
+            { id: 5, name: "boAt 300 / 320 with Flame LEDs & Up to 6 hrs Playtime 120 W Bluet...", price: 849, image: "assets/images/jbl.webp", category: "Electronics" },
+            { id: 6, name: "boAt Wave Fury with 1.83'' HD Display, Bluetooth Calling & Functional Crown Smartwatch", price: 399, image: "assets/images/boat.webp", category: "Electronics" },
+            { id: 7, name: "GX 1 500 W Juicer Mixer Grinder (410570 | 3 Jars | Blue)", price: 349, image: "assets/images/xxxx.webp", category: "Home Appliances" },
+            { id: 8, name: "6 kg 5 Star Rating Innowash Range Semi Automatic Top Load White, Maroon (MQSA605NNNDM / MQSA60H5W)", price: 1899, image: "assets/images/big.webp", category: "Home Appliances" },
+            { id: 9, name: "Signature Energy Pro with 3 Year Warranty BLDC Motor with Remote 1200 mm Ceiling Fan (5 Star | Mirage White. | Pack of 1)", price: 419, image: "assets/images/fan.webp", category: "Home Appliances" },
+            { id: 10, name: "MUST HAVE Complete Makeup Box (Medium) (Pack of 11)", price: 199, image: "assets/images/make.webp", category: "Beauty" },
+            { id: 36, name: "NIKON Z50 II Mirrorless Camera Body with 16-50 Lens (Black)", price: 3560, image: "assets/images/cam.webp", category: "Mobiles"},
+            { id: 31, name: "Galaxy S25 5G (Navy, 256 GB) (12 GB RAM)", price: 8999, image: "assets/images/s25.webp", category: "Mobiles"},
+            { id: 11, name: "GO Wireless GPS Tracker for Car GPS Device (Black)", price: 318, image: "assets/images/gps.webp", category: "Electronics" },
+            { id: 12, name: "Fastrack Stunners Black Dial Black Metal Strap Analog Watch - For Men NT3255NM01", price: 299, image: "assets/images/watch.webp", category: "Fashion" },
+            { id: 13, name: "helicopter kids toy (Red)", price: 299, image: "assets/images/hel.webp", category: "Sports" },
+            { id: 14, name: "by Cult FT98Carbon BLDC Motorized (4HP Peak) | 100KG Max Weight | Home Use Treadmill.", price: 1199, image: "assets/images/dodo.webp", category: "Sports" },
+            { id: 15, name: "Ear 2024 | ChatGPT Compatible | Hi-Res Audio | LDAC & LHDC Bluetooth Headset (White, True Wireless)", price: 259, image: "assets/images/ear.webp", category: "Electronics" },
+            { id: 16, name: "Master Buds Max, Sound by BOSE, Segment Leading ANC, Dynamic EQ, 60 Hr Playtime Bluetooth Headset (Onyx, On the Ear).", price: 479, image: "assets/images/head.webp", category: "Electronics" },
+            { id: 32, name: "Galaxy S24+ 5G (Onyx Black, 256 GB) (12 GB RAM)", price: 6981, image: "assets/images/s24.webp", category: "Mobiles"},
+            { id: 17, name: "SanDisk Extreme Portable 1 TB External Solid State Drive (SSD) 1050 MB/s, USB 3.2, 3mtr Drop Protection, Compatible with PC and Mac (Monterey)", price: 1650, image: "assets/images/pen.webp", category: "Electronics" },
+            { id: 18, name: "Men Slippers (Yellow, 9)", price: 199, image: "assets/images/chapp.webp", category: "Fashion" },
+            { id: 37, name: "Acer Nitro 74.93 cm (30 inch) Curved WFHD LED Backlit VA Panel Gaming Monitor (XZ306CX) (AMD Free Sync, Response Time: 1 ms, 200 Hz Refresh Rate)", price: 1785, image: "assets/images/curv.webp", category: "Mobiles"},
+            { id: 39, name: "SONY Playstation5 Digital Edition(Slim) CFI-2008B01X 1 TB (White, Black)", price: 9578, image: "assets/images/ps.webp", category: "Mobiles"},
+            { id: 19, name: "JIYI GPS Module for K++ V2 Agricultural Spraying Drone GPS Device (White)", price: 299, image: "assets/images/gps2.webp", category: "Electronics" },
+            { id: 20, name: "SAFETY NET, SPY CAMERA 1080P HD Wi-Fi Camera Security Indoor Camera Support iOS/Android (iWFCam APP) Security Camera (32 GB, 1 Channel)", price: 299, image: "assets/images/holder.webp", category: "Electronics" },
+            { id: 21, name: "Fogger Gas stove 3 Burner LPG Stove with jambo Burner Iron Manual Gas Stove (3 Burners)", price: 599, image: "assets/images/burner.webp", category: "Home Appliances" },
+            { id: 22, name: "Extra Time Condom (10 Sheets)", price: 99, image: "assets/images/condom.webp", category: "Home Appliances" },
+            { id: 23, name: "New Shakti 5HD HA Handi With IB 5 L Induction Bottom Pressure Cooker (Hard Anodized)", price: 499, image: "assets/images/cooker.webp", category: "Home Appliances" },
+            { id: 24, name: "Alexa Echo Dot (5th Gen) | Bluetooth with Alexa Assistant Smart Speaker (White)", price: 778, image: "assets/images/bulbs.webp", category: "Electronics" },
+            { id: 25, name: "AirPods 4 Wireless Earbuds with Active Noise Cancellation, Adaptive Audio Bluetooth Headset (White, True Wireless)", price: 1385, image: "assets/images/ipods.webp", category: "Electronics" },
+            { id: 38, name: "HP Laptop Intel Core i3 13th Gen 1315U - (8 GB/512 GB SSD/Windows 11 Home) 15-fd0129TU / 15-fd0568TU Thin and Light Laptop (15.6 Inch, Natural Silver, 1.59 kg, With MS Office)", price: 5999, image: "assets/images/asp.webp", category: "Mobiles"},
+            { id: 26, name: "RYIK 20 W PD 2.1 A Wall Charger for Mobile with Detachable Cable (Compatible with iphone 15 pro Max, 15 plus, 15, 15 pro, Cable Included)", price: 199, image: "assets/images/charger.webp", category: "Electronics" },
+            { id: 27, name: "pebble Halo | Display, Gesture Controls, Health Tracker & Sleek Design Smart Ring (11, Black)", price: 499, image: "assets/images/hand.webp", category: "Electronics" },
+            { id: 28, name: "boAt Aavante 2.1 2000 200 W Bluetooth Soundbar (Premium Black, 2.1 Channel)", price: 1205, image: "assets/images/soundbox.webp", category: "Electronics" },
+            { id: 29, name: "SanDisk SDDDC4-512G-I35 512 GB OTG Drive Compatible with Mobile, Desktop Computer, Laptop USB 3.1 Metal Case (Silver, Type A to Type C)", price: 422, image: "assets/images/pendrive2.webp", category: "Electronics" },
+            { id: 30, name: "DELL KM3322W Keyboard & Mouse Combo, Anti-fade & Spill-resistant Keys Wireless Standard Multi-device Keyboard Compatible with Desktop, Laptop, Mac up to 36 Month Battery Life, 3Y Advance Exchange Warranty (Black)", price: 299, image: "assets/images/keyboard.webp", category: "Electronics" },
+            { id: 35, name: "183 L Direct Cool Single Door 2 Star Refrigerator (Saffron Blue, RR20C1812U8/HL)", price: 1518, image: "assets/images/main.webp", category: "Mobiles"},
+            { id: 40, name: "realme Pad 3 with biggest battery in segment 8 GB RAM 128 GB ROM 11.6 inch with Wi-Fi+5G MediaTek Dimensity 7300-Max Tablet (Space Grey)", price: 2585, image: "assets/images/tab.webp", category: "Mobiles"},
+            { id: 41, name: "Dairy Milk Silk Fruit and Nut Valentine's Gift Pack Chocolate Bars (6 x 51 g)", price: 248, image: "assets/images/darry.webp", category: "Mobiles"},
+            { id: 42, name: "AIR ZOOM PEGASUS 41 Running Shoes For Men (Black , 8)", price: 1299, image: "assets/images/naki.webp", category: "Mobiles"},
+        ];
+
+        function generateRandomDiscount() { return Math.floor(Math.random() * 16) + 80; }
+        function calculateOriginalPrice(curr, disc) { return Math.max(Math.round(curr / (1 - disc/100)), Math.round(curr * 1.2)); }
+        function generateRandomRating() { return (Math.random() * 1.4 + 3.5).toFixed(1); }
+        function generateRandomRatingCount() { const counts = [124,256,512,789,1023,2045,3567,4987,6210]; return counts[Math.floor(Math.random() * counts.length)]; }
+        function createSlug(name) { return name.toLowerCase().replace(/[^\w\s-]/g,'').replace(/\s+/g,'-').replace(/--+/g,'-').trim(); }
+
+        let wishlistItems = JSON.parse(localStorage.getItem('flipkartWishlist')) || [];
+
+        window.toggleWishlist = function(productId, heartElement) {
+            const index = wishlistItems.indexOf(productId);
+            if (index === -1) {
+                wishlistItems.push(productId);
+                heartElement.classList.add('active');
+                heartElement.querySelector('i').classList.remove('far');
+                heartElement.querySelector('i').classList.add('fas');
+            } else {
+                wishlistItems.splice(index, 1);
+                heartElement.classList.remove('active');
+                heartElement.querySelector('i').classList.remove('fas');
+                heartElement.querySelector('i').classList.add('far');
+            }
+            localStorage.setItem('flipkartWishlist', JSON.stringify(wishlistItems));
+        };
+
+        function navigateToProduct(product, discountPercent, originalPrice, rating, ratingCount) {
+            const slug = createSlug(product.name);
+            const url = `view.html?id=${product.id}&name=${slug}&product=${encodeURIComponent(product.name)}&price=${product.price}&original=${originalPrice}&discount=${discountPercent}&category=${encodeURIComponent(product.category)}&rating=${rating}&ratingCount=${ratingCount}&image=${encodeURIComponent(product.image)}`;
+            window.location.href = url;
+        }
+
+        const productGrid = document.getElementById("productGrid");
+        const searchInput = document.getElementById('flipkartSearch');
+        let currentCategory = 'All Products';
+
+        function loadProducts(filteredArray) {
+            productGrid.innerHTML = "";
+            if (!filteredArray || filteredArray.length === 0) {
+                productGrid.innerHTML = '<div style="grid-column: span 2; text-align: center; padding: 30px; background: white; color: #666;">No products found</div>';
+                return;
+            }
+
+            filteredArray.forEach(product => {
+                const discount = generateRandomDiscount();
+                const original = calculateOriginalPrice(product.price, discount);
+                const rating = generateRandomRating();
+                const ratingCount = generateRandomRatingCount();
+
+                const isLiked = wishlistItems.includes(product.id);
+
+                const card = document.createElement("div");
+                card.className = "product-card";
+                card.setAttribute("data-category", product.category);
+                
+                card.innerHTML = `
+                    <div class="product-img">
+                        <div class="discount-badge">${discount}% off</div>
+                        <img src="${product.image}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/150x150?text=Product'">
+                        <!-- ❤️ HEART BUTTON – EXACT FLIPKART WISHLIST -->
+                        <div class="wishlist-heart ${isLiked ? 'active' : ''}" onclick="event.stopPropagation(); toggleWishlist(${product.id}, this)">
+                            <i class="${isLiked ? 'fas' : 'far'} fa-heart"></i>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">${product.name}</div>
+                        <div class="rating">
+                            <span class="rating-stars">${rating} <i class="fas fa-star"></i></span>
+                            <span class="rating-count">(${ratingCount})</span>
+                        </div>
+                        <div class="price-container">
+                            <span class="current-price">₹${product.price}</span>
+                            <span class="original-price">₹${original}</span>
+                            <span class="discount-percent">${discount}% off</span>
+                        </div>
+                        <div class="assured">
+                            <img src="https://static-assets-web.flixcart.com/fk-p-linchpin-web/fk-cp-zion/img/fa_62673a.png" alt="flipkart assured" style="width:65px;">
+                        </div>
+                    </div>
+                `;
+
+                card.addEventListener("click", (e) => {
+                    if (!e.target.closest('.wishlist-heart')) {
+                        e.preventDefault();
+                        navigateToProduct(product, discount, original, rating, ratingCount);
+                    }
+                });
+
+                productGrid.appendChild(card);
+            });
+        }
+        function filterProducts(category) {
+            currentCategory = category;
+            if (category === 'All Products') loadProducts(products);
+            else loadProducts(products.filter(p => p.category === category));
+        }
+
+        const allBtn = document.getElementById('filterAll');
+        const elecBtn = document.getElementById('filterElectronics');
+        const homeBtn = document.getElementById('filterHome');
+        const fashionBtn = document.getElementById('filterFashion');
+        const beautyBtn = document.getElementById('filterBeauty');
+        const sportsBtn = document.getElementById('filterSports');
+        const pills = [allBtn, elecBtn, homeBtn, fashionBtn, beautyBtn, sportsBtn];
+
+        function setActive(activePill) {
+            pills.forEach(p => p.classList.remove('active'));
+            activePill.classList.add('active');
+        }
+
+        allBtn.addEventListener('click', function() { setActive(allBtn); filterProducts('All Products'); });
+        elecBtn.addEventListener('click', function() { setActive(elecBtn); filterProducts('Electronics'); });
+        homeBtn.addEventListener('click', function() { setActive(homeBtn); filterProducts('Home Appliances'); });
+        fashionBtn.addEventListener('click', function() { setActive(fashionBtn); filterProducts('Fashion'); });
+        beautyBtn.addEventListener('click', function() { setActive(beautyBtn); filterProducts('Beauty'); });
+        sportsBtn.addEventListener('click', function() { setActive(sportsBtn); filterProducts('Sports'); });
+
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            if (!term) { filterProducts(currentCategory); return; }
+            const filtered = products.filter(p => p.name.toLowerCase().includes(term) || p.category.toLowerCase().includes(term));
+            loadProducts(filtered);
+        });
+
+        document.querySelectorAll('.category-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const category = this.getAttribute('data-category');
+                filterProducts(category);
+                const matchingPill = document.getElementById('filter' + category.replace(' ', ''));
+                if (matchingPill) setActive(matchingPill);
+            });
+        });
+        loadProducts(products);
+
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'flipkartWishlist') {
+                wishlistItems = JSON.parse(e.newValue || '[]');
+                loadProducts(currentCategory === 'All Products' ? products : products.filter(p => p.category === currentCategory));
+            }
+        });
+
+    })();
+</script>
+
+</body>
+</html>

